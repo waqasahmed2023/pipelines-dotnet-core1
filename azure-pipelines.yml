@@ -36,6 +36,8 @@ stages:
           artifactName: 'myWebsiteName'
   
   - stage: Debug
+    pool:
+      vmImage: 'ubuntu-latest'
     jobs:
     - job: Debug
       steps:            
@@ -49,6 +51,8 @@ stages:
               ls -lrt
 
   - stage: Deploy
+    pool:
+      vmImage: 'ubuntu-latest'
     jobs:
     - job: Deploy
       steps:            
