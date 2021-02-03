@@ -34,12 +34,13 @@ steps:
     artifactName: 'myWebsiteName'
 
 - task: Bash@3
+  displayName: 'Run Bash for debugging'
   inputs:
     targetType: 'inline'
     script: |
       echo "current path is: " 
       pwd
-      ls
+      ls -lrt
 
 - task: AzureRmWebAppDeployment@4
   inputs:
