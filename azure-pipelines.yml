@@ -32,3 +32,10 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'myWebsiteName'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'sub_devtest'
+    appType: 'webApp'
+    WebAppName: 'waqwebapp'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
