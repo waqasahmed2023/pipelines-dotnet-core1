@@ -18,7 +18,7 @@ stages:
     - job: build and publish
       steps:
       - task: DotNetCoreCLI@2
-          inputs:
+        inputs:
           command: 'build'
           arguments: '--configuration $(buildConfiguration)'
           displayName: 'dotnet build $(buildConfiguration)'
