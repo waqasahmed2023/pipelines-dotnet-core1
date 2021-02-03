@@ -34,8 +34,8 @@ stages:
           artifactName: 'myWebsiteName'
   
   - stage: Debug
-      jobs:
-      - job: Debug
+    jobs:
+    - job: Debug
       steps:            
         - task: Bash@3
           displayName: 'Run Bash for debugging'
@@ -47,9 +47,9 @@ stages:
               ls -lrt
 
   - stage: Deploy
-      jobs:
-      - job: Deploy
-        steps:            
+    jobs:
+    - job: Deploy
+      steps:            
         - task: AzureRmWebAppDeployment@4
           inputs:
             ConnectionType: 'AzureRM'
