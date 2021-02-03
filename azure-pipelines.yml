@@ -12,40 +12,48 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-#- script: dotnet build --configuration $(buildConfiguration)
-#  displayName: 'dotnet build $(buildConfiguration)'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    arguments: '--configuration $(buildConfiguration)'
-  displayName: 'dotnet build $(buildConfiguration)'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
+stages:
+  - stage: build
+    jobs:
+    - job: build and publish
+      steps:
+        - task: DotNetCoreCLI@2
+          inputs:
+          command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+          displayName: 'dotnet build $(buildConfiguration)'
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: publish
+            publishWebProjects: True
+            arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+            zipAfterPublish: True
+        - task: PublishBuildArtifacts@1
+          inputs:
+            pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+            artifactName: 'myWebsiteName'
+  
+  - stage: Debug
+      jobs:
+      - job: Debug
+      steps:            
+        - task: Bash@3
+          displayName: 'Run Bash for debugging'
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "current path is: " 
+              pwd
+              ls -lrt
 
-# this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'myWebsiteName'
-
-- task: Bash@3
-  displayName: 'Run Bash for debugging'
-  inputs:
-    targetType: 'inline'
-    script: |
-      echo "current path is: " 
-      pwd
-      ls -lrt
-
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'sub_devtest'
-    appType: 'webApp'
-    WebAppName: 'waqwebapp'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
+  - stage: Deploy
+      jobs:
+      - job: Deploy
+        steps:            
+        - task: AzureRmWebAppDeployment@4
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: 'sub_devtest'
+            appType: 'webApp'
+            WebAppName: 'waqwebapp'
+            packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
