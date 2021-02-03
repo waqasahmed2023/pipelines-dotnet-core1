@@ -59,19 +59,6 @@ stages:
       steps:
         - task: DownloadPipelineArtifact@2
           inputs:
-            artifact: 'myWebsiteName'
-            path: $(Build.ArtifactStagingDirectory)/*.zip
-        - task: Bash@3
-          displayName: 'Run Bash for debugging'
-          inputs:
-            targetType: 'inline'
-            script: |
-              echo "current path is: " 
-              pwd
-              ls -lrt        
-              hostname
-        - task: DownloadPipelineArtifact@2
-          inputs:
             buildType: 'current'
             artifactName: 'myWebsiteName'
             targetPath: '$(Build.ArtifactStagingDirectory)'
