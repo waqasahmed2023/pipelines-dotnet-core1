@@ -55,7 +55,16 @@ stages:
       vmImage: 'ubuntu-latest'
     jobs:
     - job: Deploy
-      steps:            
+      steps:
+        - task: Bash@3
+          displayName: 'Run Bash for debugging'
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "current path is: " 
+              pwd
+              ls -lrt        
+              hostname  
         - task: AzureRmWebAppDeployment@4
           inputs:
             ConnectionType: 'AzureRM'
