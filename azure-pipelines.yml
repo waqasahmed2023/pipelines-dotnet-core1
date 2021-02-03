@@ -70,14 +70,11 @@ stages:
               pwd
               ls -lrt        
               hostname
-<<<<<<< HEAD
-=======
         - task: DownloadPipelineArtifact@2
           inputs:
             buildType: 'current'
             artifactName: 'myWebsiteName'
             targetPath: '$(Build.ArtifactStagingDirectory)'
->>>>>>> 51ff4af80fe977fcec9d9d60b941fc6310a45aa8
         - task: AzureRmWebAppDeployment@4
           inputs:
             ConnectionType: 'AzureRM'
