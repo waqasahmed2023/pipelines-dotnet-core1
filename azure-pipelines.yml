@@ -68,8 +68,9 @@ stages:
               hostname
         - task: DownloadPipelineArtifact@2
           inputs:
-            artifact: 'myWebsiteName'
-            path: $(Build.ArtifactStagingDirectory)/*.zip
+            buildType: 'current'
+            artifactName: 'myWebsiteName'
+            targetPath: '$(Build.ArtifactStagingDirectory)'
         - task: AzureRmWebAppDeployment@4
           inputs:
             ConnectionType: 'AzureRM'
